@@ -43,7 +43,7 @@ func InitAllStrings() (err error) {
 	psqlPass = os.Getenv("PSQL_PASSWORD")
 	psqlDbName = os.Getenv("PSQL_DBNAME")
 
-	TokenUri = os.Getenv("TOKEN_URI")
+	TokenUri = os.Getenv("NEW_TOKEN_URI")
 
 	NewUserUri = os.Getenv("NEW_USER_URI")
 
