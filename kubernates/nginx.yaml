@@ -1,0 +1,76 @@
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cert-claim
+  namespace: production
+  labels:
+    tier: production
+    app: nginx
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 500Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: production
+  labels:
+    tier: production
+    app: nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      tier: production
+      app: nginx
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        tier: production
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: serefakkus/mt-nginx:1.0.15
+        resources:
+          limits:
+            memory: 512Mi
+            cpu: "1"
+          requests:
+            memory: 256Mi
+            cpu: "0.2"
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 80
+            name: ng-prod-port
+      volumes:
+        - name: nginx-pv
+          persistentVolumeClaim:
+            claimName: cert-claim
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  namespace: production
+  labels:
+    tier: production
+spec:
+  type: ClusterIP
+  selector:
+    tier: production
+    app: nginx
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80

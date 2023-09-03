@@ -1,0 +1,3259 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: signlb-deployment
+  namespace: production
+  labels:
+    tier: production
+    app: sign-lb
+spec:
+  selector:
+    matchLabels:
+      tier: production
+      app: sign-lb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        tier: production
+        app: sign-lb
+    spec:
+      containers:
+      - name: sign-lb
+        image: serefakkus/mt-sign-lb:1.0.0
+        env:
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: MONGO_URI
+        - name: PSQL_HOST
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_HOST
+        - name: PSQL_PORT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_PORT
+        - name: PSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_USER
+        - name: PSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_PASSWORD
+        - name: PSQL_DBNAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_DBNAME
+        - name: SIGN_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_TABLE_NAME
+        - name: SIGN_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_DB_NAME
+        - name: SMS_SQL_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SMS_SQL_TABLE_NAME
+        - name: SMS_SQL_LOG_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SMS_SQL_LOG_TABLE_NAME
+        - name: NEW_USER_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_USER_URI
+        - name: TOKEN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_URI
+        - name: INCOMING_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_DB_NAME
+        - name: OUTGOING_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_DB_NAME
+        - name: USER_HISTORY_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: USER_HISTORY_DB_NAME
+        - name: REGULAR_INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_INCOMING_TABLE_NAME
+        - name: REGULAR_HISTORY_INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_HISTORY_INCOMING_TABLE_NAME
+        - name: INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_TABLE_NAME
+        - name: USER_HISTORY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: USER_HISTORY_TABLE_NAME
+        - name: INCOMING_DAILY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_DAILY_TABLE_NAME
+        - name: REGULAR_OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_OUTGOING_TABLE_NAME
+        - name: REGULAR_HISTORY_OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_HISTORY_OUTGOING_TABLE_NAME
+        - name: OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_TABLE_NAME
+        - name: OUTGOING_DAILY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_DAILY_TABLE_NAME
+        - name: GET_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: GET_BASE_URI
+        - name: HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: HISTORY_PATH
+        - name: INCOMING_REG_HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_REG_HISTORY_PATH
+        - name: OUTGOING_REG_HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_REG_HISTORY_PATH
+        - name: INCOMING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_PATH
+        - name: REGULAR_INCOMING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_INCOMING_PATH
+        - name: OUTGOING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_PATH
+        - name: REGULAR_OUTGOING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_OUTGOING_PATH
+        - name: INCOMING_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_BASE_URI
+        - name: INCOMING_NEW_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_NEW_PATH
+        - name: INCOMING_NEW_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_NEW_REG_PATH
+        - name: INCOMING_REF_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_REF_REG_PATH
+        - name: OUTGOING_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_BASE_URI
+        - name: OUTGOING_NEW_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_NEW_PATH
+        - name: OUTGOING_NEW_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_NEW_REG_PATH
+        - name: OUTGOING_REF_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_REF_REG_PATH
+        - name: SIGN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_URI
+        - name: SIGN_IN_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_IN_PATH
+        - name: SIGN_UP_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_UP_PATH
+        - name: NEW_SMS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_SMS_PATH
+        - name: ASK_SMS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ASK_SMS_PATH
+        - name: NEW_SMS_REF_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_SMS_REF_PATH
+        - name: ASK_SMS_REF_PAT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ASK_SMS_REF_PAT
+        - name: REF_PASS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REF_PASS_PATH
+        - name: ACCESS_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ACCESS_SECRET
+        - name: REFRESH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REFRESH_SECRET
+        - name: TOKEN_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_DB_NAME
+        - name: TOKEN_DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_DB_PORT
+        - name: NEW_TOKEN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_TOKEN_URI
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 80
+            name: slb-prod-port
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sign-lb
+  namespace: production
+  labels:
+    tier: production
+spec:
+  type: ClusterIP
+  selector:
+    tier: production
+    app: sign-lb
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: newlb-deployment
+  namespace: production
+  labels:
+    tier: production
+    app: new-lb
+spec:
+  selector:
+    matchLabels:
+      tier: production
+      app: new-lb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        tier: production
+        app: new-lb
+    spec:
+      containers:
+      - name: new-lb
+        image: serefakkus/mt-new-lb:1.0.0
+        env:
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: MONGO_URI
+        - name: PSQL_HOST
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_HOST
+        - name: PSQL_PORT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_PORT
+        - name: PSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_USER
+        - name: PSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_PASSWORD
+        - name: PSQL_DBNAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_DBNAME
+        - name: SIGN_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_TABLE_NAME
+        - name: SIGN_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_DB_NAME
+        - name: SMS_SQL_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SMS_SQL_TABLE_NAME
+        - name: SMS_SQL_LOG_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SMS_SQL_LOG_TABLE_NAME
+        - name: NEW_USER_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_USER_URI
+        - name: TOKEN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_URI
+        - name: INCOMING_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_DB_NAME
+        - name: OUTGOING_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_DB_NAME
+        - name: USER_HISTORY_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: USER_HISTORY_DB_NAME
+        - name: REGULAR_INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_INCOMING_TABLE_NAME
+        - name: REGULAR_HISTORY_INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_HISTORY_INCOMING_TABLE_NAME
+        - name: INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_TABLE_NAME
+        - name: USER_HISTORY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: USER_HISTORY_TABLE_NAME
+        - name: INCOMING_DAILY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_DAILY_TABLE_NAME
+        - name: REGULAR_OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_OUTGOING_TABLE_NAME
+        - name: REGULAR_HISTORY_OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_HISTORY_OUTGOING_TABLE_NAME
+        - name: OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_TABLE_NAME
+        - name: OUTGOING_DAILY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_DAILY_TABLE_NAME
+        - name: GET_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: GET_BASE_URI
+        - name: HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: HISTORY_PATH
+        - name: INCOMING_REG_HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_REG_HISTORY_PATH
+        - name: OUTGOING_REG_HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_REG_HISTORY_PATH
+        - name: INCOMING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_PATH
+        - name: REGULAR_INCOMING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_INCOMING_PATH
+        - name: OUTGOING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_PATH
+        - name: REGULAR_OUTGOING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_OUTGOING_PATH
+        - name: INCOMING_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_BASE_URI
+        - name: INCOMING_NEW_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_NEW_PATH
+        - name: INCOMING_NEW_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_NEW_REG_PATH
+        - name: INCOMING_REF_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_REF_REG_PATH
+        - name: OUTGOING_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_BASE_URI
+        - name: OUTGOING_NEW_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_NEW_PATH
+        - name: OUTGOING_NEW_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_NEW_REG_PATH
+        - name: OUTGOING_REF_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_REF_REG_PATH
+        - name: SIGN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_URI
+        - name: SIGN_IN_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_IN_PATH
+        - name: SIGN_UP_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_UP_PATH
+        - name: NEW_SMS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_SMS_PATH
+        - name: ASK_SMS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ASK_SMS_PATH
+        - name: NEW_SMS_REF_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_SMS_REF_PATH
+        - name: ASK_SMS_REF_PAT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ASK_SMS_REF_PAT
+        - name: REF_PASS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REF_PASS_PATH
+        - name: ACCESS_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ACCESS_SECRET
+        - name: REFRESH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REFRESH_SECRET
+        - name: TOKEN_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_DB_NAME
+        - name: TOKEN_DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_DB_PORT
+        - name: NEW_TOKEN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_TOKEN_URI
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 80
+            name: nlb-prod-port
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: new-lb
+  namespace: production
+  labels:
+    tier: production
+spec:
+  type: ClusterIP
+  selector:
+    tier: production
+    app: new-lb
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: getlb-deployment
+  namespace: production
+  labels:
+    tier: production
+    app: get-lb
+spec:
+  selector:
+    matchLabels:
+      tier: production
+      app: get-lb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        tier: production
+        app: get-lb
+    spec:
+      containers:
+      - name: get-lb
+        image: serefakkus/mt-get-lb:1.0.0
+        env:
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: MONGO_URI
+        - name: PSQL_HOST
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_HOST
+        - name: PSQL_PORT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_PORT
+        - name: PSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_USER
+        - name: PSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_PASSWORD
+        - name: PSQL_DBNAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_DBNAME
+        - name: SIGN_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_TABLE_NAME
+        - name: SIGN_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_DB_NAME
+        - name: SMS_SQL_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SMS_SQL_TABLE_NAME
+        - name: SMS_SQL_LOG_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SMS_SQL_LOG_TABLE_NAME
+        - name: NEW_USER_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_USER_URI
+        - name: TOKEN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_URI
+        - name: INCOMING_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_DB_NAME
+        - name: OUTGOING_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_DB_NAME
+        - name: USER_HISTORY_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: USER_HISTORY_DB_NAME
+        - name: REGULAR_INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_INCOMING_TABLE_NAME
+        - name: REGULAR_HISTORY_INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_HISTORY_INCOMING_TABLE_NAME
+        - name: INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_TABLE_NAME
+        - name: USER_HISTORY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: USER_HISTORY_TABLE_NAME
+        - name: INCOMING_DAILY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_DAILY_TABLE_NAME
+        - name: REGULAR_OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_OUTGOING_TABLE_NAME
+        - name: REGULAR_HISTORY_OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_HISTORY_OUTGOING_TABLE_NAME
+        - name: OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_TABLE_NAME
+        - name: OUTGOING_DAILY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_DAILY_TABLE_NAME
+        - name: GET_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: GET_BASE_URI
+        - name: HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: HISTORY_PATH
+        - name: INCOMING_REG_HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_REG_HISTORY_PATH
+        - name: OUTGOING_REG_HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_REG_HISTORY_PATH
+        - name: INCOMING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_PATH
+        - name: REGULAR_INCOMING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_INCOMING_PATH
+        - name: OUTGOING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_PATH
+        - name: REGULAR_OUTGOING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_OUTGOING_PATH
+        - name: INCOMING_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_BASE_URI
+        - name: INCOMING_NEW_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_NEW_PATH
+        - name: INCOMING_NEW_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_NEW_REG_PATH
+        - name: INCOMING_REF_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_REF_REG_PATH
+        - name: OUTGOING_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_BASE_URI
+        - name: OUTGOING_NEW_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_NEW_PATH
+        - name: OUTGOING_NEW_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_NEW_REG_PATH
+        - name: OUTGOING_REF_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_REF_REG_PATH
+        - name: SIGN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_URI
+        - name: SIGN_IN_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_IN_PATH
+        - name: SIGN_UP_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_UP_PATH
+        - name: NEW_SMS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_SMS_PATH
+        - name: ASK_SMS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ASK_SMS_PATH
+        - name: NEW_SMS_REF_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_SMS_REF_PATH
+        - name: ASK_SMS_REF_PAT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ASK_SMS_REF_PAT
+        - name: REF_PASS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REF_PASS_PATH
+        - name: ACCESS_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ACCESS_SECRET
+        - name: REFRESH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REFRESH_SECRET
+        - name: TOKEN_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_DB_NAME
+        - name: TOKEN_DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_DB_PORT
+        - name: NEW_TOKEN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_TOKEN_URI
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 80
+            name: glb-prod-port
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: get-lb
+  namespace: production
+  labels:
+    tier: production
+spec:
+  type: ClusterIP
+  selector:
+    tier: production
+    app: get-lb
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: logsql-claim
+  namespace: production
+  labels:
+    tier: production
+    app: logsql
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 4Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logsql-deployment
+  namespace: production
+  labels:
+    tier: production
+    app: log-sql
+spec:
+  selector:
+    matchLabels:
+      tier: production
+      app: log-sql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        tier: production
+        app: log-sql
+    spec:
+      containers:
+      - name: log-sql
+        image: serefakkus/mt-log-sql:1.0.0
+        env:
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: MONGO_URI
+        - name: PSQL_HOST
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_HOST
+        - name: PSQL_PORT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_PORT
+        - name: PSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_USER
+        - name: PSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_PASSWORD
+        - name: PSQL_DBNAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_DBNAME
+        - name: SIGN_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_TABLE_NAME
+        - name: SIGN_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_DB_NAME
+        - name: SMS_SQL_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SMS_SQL_TABLE_NAME
+        - name: SMS_SQL_LOG_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SMS_SQL_LOG_TABLE_NAME
+        - name: NEW_USER_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_USER_URI
+        - name: TOKEN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_URI
+        - name: INCOMING_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_DB_NAME
+        - name: OUTGOING_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_DB_NAME
+        - name: USER_HISTORY_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: USER_HISTORY_DB_NAME
+        - name: REGULAR_INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_INCOMING_TABLE_NAME
+        - name: REGULAR_HISTORY_INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_HISTORY_INCOMING_TABLE_NAME
+        - name: INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_TABLE_NAME
+        - name: USER_HISTORY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: USER_HISTORY_TABLE_NAME
+        - name: INCOMING_DAILY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_DAILY_TABLE_NAME
+        - name: REGULAR_OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_OUTGOING_TABLE_NAME
+        - name: REGULAR_HISTORY_OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_HISTORY_OUTGOING_TABLE_NAME
+        - name: OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_TABLE_NAME
+        - name: OUTGOING_DAILY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_DAILY_TABLE_NAME
+        - name: GET_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: GET_BASE_URI
+        - name: HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: HISTORY_PATH
+        - name: INCOMING_REG_HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_REG_HISTORY_PATH
+        - name: OUTGOING_REG_HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_REG_HISTORY_PATH
+        - name: INCOMING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_PATH
+        - name: REGULAR_INCOMING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_INCOMING_PATH
+        - name: OUTGOING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_PATH
+        - name: REGULAR_OUTGOING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_OUTGOING_PATH
+        - name: INCOMING_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_BASE_URI
+        - name: INCOMING_NEW_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_NEW_PATH
+        - name: INCOMING_NEW_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_NEW_REG_PATH
+        - name: INCOMING_REF_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_REF_REG_PATH
+        - name: OUTGOING_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_BASE_URI
+        - name: OUTGOING_NEW_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_NEW_PATH
+        - name: OUTGOING_NEW_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_NEW_REG_PATH
+        - name: OUTGOING_REF_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_REF_REG_PATH
+        - name: SIGN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_URI
+        - name: SIGN_IN_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_IN_PATH
+        - name: SIGN_UP_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_UP_PATH
+        - name: NEW_SMS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_SMS_PATH
+        - name: ASK_SMS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ASK_SMS_PATH
+        - name: NEW_SMS_REF_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_SMS_REF_PATH
+        - name: ASK_SMS_REF_PAT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ASK_SMS_REF_PAT
+        - name: REF_PASS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REF_PASS_PATH
+        - name: ACCESS_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ACCESS_SECRET
+        - name: REFRESH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REFRESH_SECRET
+        - name: TOKEN_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_DB_NAME
+        - name: TOKEN_DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_DB_PORT
+        - name: NEW_TOKEN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_TOKEN_URI
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 5432
+            name: log-prod-port
+        volumeMounts:
+          - name: reklamimage-prod-pv
+            mountPath: /media
+      volumes:
+        - name: reklamimage-prod-pv
+          persistentVolumeClaim:
+            claimName: logsql-claim
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: log-sql
+  namespace: production
+  labels:
+    tier: production
+spec:
+  type: ClusterIP
+  selector:
+    tier: production
+    app: log-sql
+  ports:
+  - protocol: TCP
+    port: 5432
+    targetPort: 5432
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tokre-deployment
+  namespace: production
+  labels:
+    tier: production
+    app: token-redis
+spec:
+  selector:
+    matchLabels:
+      tier: production
+      app: token-redis
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        tier: production
+        app: token-redis
+    spec:
+      containers:
+      - name: token-redis
+        image: serefakkus/mt-token-redis:1.0.0
+        env:
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: MONGO_URI
+        - name: PSQL_HOST
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_HOST
+        - name: PSQL_PORT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_PORT
+        - name: PSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_USER
+        - name: PSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_PASSWORD
+        - name: PSQL_DBNAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_DBNAME
+        - name: SIGN_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_TABLE_NAME
+        - name: SIGN_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_DB_NAME
+        - name: SMS_SQL_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SMS_SQL_TABLE_NAME
+        - name: SMS_SQL_LOG_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SMS_SQL_LOG_TABLE_NAME
+        - name: NEW_USER_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_USER_URI
+        - name: TOKEN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_URI
+        - name: INCOMING_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_DB_NAME
+        - name: OUTGOING_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_DB_NAME
+        - name: USER_HISTORY_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: USER_HISTORY_DB_NAME
+        - name: REGULAR_INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_INCOMING_TABLE_NAME
+        - name: REGULAR_HISTORY_INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_HISTORY_INCOMING_TABLE_NAME
+        - name: INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_TABLE_NAME
+        - name: USER_HISTORY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: USER_HISTORY_TABLE_NAME
+        - name: INCOMING_DAILY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_DAILY_TABLE_NAME
+        - name: REGULAR_OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_OUTGOING_TABLE_NAME
+        - name: REGULAR_HISTORY_OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_HISTORY_OUTGOING_TABLE_NAME
+        - name: OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_TABLE_NAME
+        - name: OUTGOING_DAILY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_DAILY_TABLE_NAME
+        - name: GET_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: GET_BASE_URI
+        - name: HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: HISTORY_PATH
+        - name: INCOMING_REG_HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_REG_HISTORY_PATH
+        - name: OUTGOING_REG_HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_REG_HISTORY_PATH
+        - name: INCOMING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_PATH
+        - name: REGULAR_INCOMING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_INCOMING_PATH
+        - name: OUTGOING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_PATH
+        - name: REGULAR_OUTGOING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_OUTGOING_PATH
+        - name: INCOMING_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_BASE_URI
+        - name: INCOMING_NEW_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_NEW_PATH
+        - name: INCOMING_NEW_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_NEW_REG_PATH
+        - name: INCOMING_REF_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_REF_REG_PATH
+        - name: OUTGOING_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_BASE_URI
+        - name: OUTGOING_NEW_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_NEW_PATH
+        - name: OUTGOING_NEW_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_NEW_REG_PATH
+        - name: OUTGOING_REF_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_REF_REG_PATH
+        - name: SIGN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_URI
+        - name: SIGN_IN_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_IN_PATH
+        - name: SIGN_UP_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_UP_PATH
+        - name: NEW_SMS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_SMS_PATH
+        - name: ASK_SMS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ASK_SMS_PATH
+        - name: NEW_SMS_REF_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_SMS_REF_PATH
+        - name: ASK_SMS_REF_PAT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ASK_SMS_REF_PAT
+        - name: REF_PASS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REF_PASS_PATH
+        - name: ACCESS_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ACCESS_SECRET
+        - name: REFRESH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REFRESH_SECRET
+        - name: TOKEN_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_DB_NAME
+        - name: TOKEN_DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_DB_PORT
+        - name: NEW_TOKEN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_TOKEN_URI
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 6379
+            name: tor-prod-port
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: token-redis
+  namespace: production
+  labels:
+    tier: production
+spec:
+  type: ClusterIP
+  selector:
+    tier: production
+    app: token-redis
+  ports:
+  - protocol: TCP
+    port: 6379
+    targetPort: 6379
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tok-deployment
+  namespace: production
+  labels:
+    tier: production
+    app: token
+spec:
+  selector:
+    matchLabels:
+      tier: production
+      app: token
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        tier: production
+        app: token
+    spec:
+      containers:
+      - name: token
+        image: serefakkus/mt-token:1.0.0
+        env:
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: MONGO_URI
+        - name: PSQL_HOST
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_HOST
+        - name: PSQL_PORT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_PORT
+        - name: PSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_USER
+        - name: PSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_PASSWORD
+        - name: PSQL_DBNAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_DBNAME
+        - name: SIGN_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_TABLE_NAME
+        - name: SIGN_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_DB_NAME
+        - name: SMS_SQL_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SMS_SQL_TABLE_NAME
+        - name: SMS_SQL_LOG_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SMS_SQL_LOG_TABLE_NAME
+        - name: NEW_USER_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_USER_URI
+        - name: TOKEN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_URI
+        - name: INCOMING_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_DB_NAME
+        - name: OUTGOING_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_DB_NAME
+        - name: USER_HISTORY_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: USER_HISTORY_DB_NAME
+        - name: REGULAR_INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_INCOMING_TABLE_NAME
+        - name: REGULAR_HISTORY_INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_HISTORY_INCOMING_TABLE_NAME
+        - name: INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_TABLE_NAME
+        - name: USER_HISTORY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: USER_HISTORY_TABLE_NAME
+        - name: INCOMING_DAILY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_DAILY_TABLE_NAME
+        - name: REGULAR_OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_OUTGOING_TABLE_NAME
+        - name: REGULAR_HISTORY_OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_HISTORY_OUTGOING_TABLE_NAME
+        - name: OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_TABLE_NAME
+        - name: OUTGOING_DAILY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_DAILY_TABLE_NAME
+        - name: GET_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: GET_BASE_URI
+        - name: HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: HISTORY_PATH
+        - name: INCOMING_REG_HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_REG_HISTORY_PATH
+        - name: OUTGOING_REG_HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_REG_HISTORY_PATH
+        - name: INCOMING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_PATH
+        - name: REGULAR_INCOMING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_INCOMING_PATH
+        - name: OUTGOING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_PATH
+        - name: REGULAR_OUTGOING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_OUTGOING_PATH
+        - name: INCOMING_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_BASE_URI
+        - name: INCOMING_NEW_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_NEW_PATH
+        - name: INCOMING_NEW_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_NEW_REG_PATH
+        - name: INCOMING_REF_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_REF_REG_PATH
+        - name: OUTGOING_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_BASE_URI
+        - name: OUTGOING_NEW_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_NEW_PATH
+        - name: OUTGOING_NEW_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_NEW_REG_PATH
+        - name: OUTGOING_REF_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_REF_REG_PATH
+        - name: SIGN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_URI
+        - name: SIGN_IN_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_IN_PATH
+        - name: SIGN_UP_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_UP_PATH
+        - name: NEW_SMS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_SMS_PATH
+        - name: ASK_SMS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ASK_SMS_PATH
+        - name: NEW_SMS_REF_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_SMS_REF_PATH
+        - name: ASK_SMS_REF_PAT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ASK_SMS_REF_PAT
+        - name: REF_PASS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REF_PASS_PATH
+        - name: ACCESS_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ACCESS_SECRET
+        - name: REFRESH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REFRESH_SECRET
+        - name: TOKEN_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_DB_NAME
+        - name: TOKEN_DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_DB_PORT
+        - name: NEW_TOKEN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_TOKEN_URI
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 80
+            name: tok-prod-port
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: token
+  namespace: production
+  labels:
+    tier: production
+spec:
+  type: ClusterIP
+  selector:
+    tier: production
+    app: token
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sign-deployment
+  namespace: production
+  labels:
+    tier: production
+    app: sign
+spec:
+  selector:
+    matchLabels:
+      tier: production
+      app: sign
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        tier: production
+        app: sign
+    spec:
+      containers:
+      - name: sign
+        image: serefakkus/mt-sign:1.0.1
+        env:
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: MONGO_URI
+        - name: PSQL_HOST
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_HOST
+        - name: PSQL_PORT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_PORT
+        - name: PSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_USER
+        - name: PSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_PASSWORD
+        - name: PSQL_DBNAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_DBNAME
+        - name: SIGN_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_TABLE_NAME
+        - name: SIGN_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_DB_NAME
+        - name: SMS_SQL_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SMS_SQL_TABLE_NAME
+        - name: SMS_SQL_LOG_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SMS_SQL_LOG_TABLE_NAME
+        - name: NEW_USER_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_USER_URI
+        - name: TOKEN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_URI
+        - name: INCOMING_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_DB_NAME
+        - name: OUTGOING_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_DB_NAME
+        - name: USER_HISTORY_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: USER_HISTORY_DB_NAME
+        - name: REGULAR_INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_INCOMING_TABLE_NAME
+        - name: REGULAR_HISTORY_INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_HISTORY_INCOMING_TABLE_NAME
+        - name: INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_TABLE_NAME
+        - name: USER_HISTORY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: USER_HISTORY_TABLE_NAME
+        - name: INCOMING_DAILY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_DAILY_TABLE_NAME
+        - name: REGULAR_OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_OUTGOING_TABLE_NAME
+        - name: REGULAR_HISTORY_OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_HISTORY_OUTGOING_TABLE_NAME
+        - name: OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_TABLE_NAME
+        - name: OUTGOING_DAILY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_DAILY_TABLE_NAME
+        - name: GET_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: GET_BASE_URI
+        - name: HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: HISTORY_PATH
+        - name: INCOMING_REG_HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_REG_HISTORY_PATH
+        - name: OUTGOING_REG_HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_REG_HISTORY_PATH
+        - name: INCOMING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_PATH
+        - name: REGULAR_INCOMING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_INCOMING_PATH
+        - name: OUTGOING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_PATH
+        - name: REGULAR_OUTGOING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_OUTGOING_PATH
+        - name: INCOMING_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_BASE_URI
+        - name: INCOMING_NEW_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_NEW_PATH
+        - name: INCOMING_NEW_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_NEW_REG_PATH
+        - name: INCOMING_REF_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_REF_REG_PATH
+        - name: OUTGOING_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_BASE_URI
+        - name: OUTGOING_NEW_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_NEW_PATH
+        - name: OUTGOING_NEW_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_NEW_REG_PATH
+        - name: OUTGOING_REF_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_REF_REG_PATH
+        - name: SIGN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_URI
+        - name: SIGN_IN_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_IN_PATH
+        - name: SIGN_UP_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_UP_PATH
+        - name: NEW_SMS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_SMS_PATH
+        - name: ASK_SMS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ASK_SMS_PATH
+        - name: NEW_SMS_REF_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_SMS_REF_PATH
+        - name: ASK_SMS_REF_PAT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ASK_SMS_REF_PAT
+        - name: REF_PASS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REF_PASS_PATH
+        - name: ACCESS_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ACCESS_SECRET
+        - name: REFRESH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REFRESH_SECRET
+        - name: TOKEN_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_DB_NAME
+        - name: TOKEN_DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_DB_PORT
+        - name: NEW_TOKEN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_TOKEN_URI
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 80
+            name: sig-prod-port
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sign
+  namespace: production
+  labels:
+    tier: production
+spec:
+  type: ClusterIP
+  selector:
+    tier: production
+    app: sign
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: outnew-deployment
+  namespace: production
+  labels:
+    tier: production
+    app: out-new
+spec:
+  selector:
+    matchLabels:
+      tier: production
+      app: out-new
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        tier: production
+        app: out-new
+    spec:
+      containers:
+      - name: out-new
+        image: serefakkus/mt-out-new:1.0.0
+        env:
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: MONGO_URI
+        - name: PSQL_HOST
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_HOST
+        - name: PSQL_PORT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_PORT
+        - name: PSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_USER
+        - name: PSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_PASSWORD
+        - name: PSQL_DBNAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_DBNAME
+        - name: SIGN_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_TABLE_NAME
+        - name: SIGN_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_DB_NAME
+        - name: SMS_SQL_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SMS_SQL_TABLE_NAME
+        - name: SMS_SQL_LOG_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SMS_SQL_LOG_TABLE_NAME
+        - name: NEW_USER_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_USER_URI
+        - name: TOKEN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_URI
+        - name: INCOMING_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_DB_NAME
+        - name: OUTGOING_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_DB_NAME
+        - name: USER_HISTORY_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: USER_HISTORY_DB_NAME
+        - name: REGULAR_INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_INCOMING_TABLE_NAME
+        - name: REGULAR_HISTORY_INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_HISTORY_INCOMING_TABLE_NAME
+        - name: INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_TABLE_NAME
+        - name: USER_HISTORY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: USER_HISTORY_TABLE_NAME
+        - name: INCOMING_DAILY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_DAILY_TABLE_NAME
+        - name: REGULAR_OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_OUTGOING_TABLE_NAME
+        - name: REGULAR_HISTORY_OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_HISTORY_OUTGOING_TABLE_NAME
+        - name: OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_TABLE_NAME
+        - name: OUTGOING_DAILY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_DAILY_TABLE_NAME
+        - name: GET_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: GET_BASE_URI
+        - name: HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: HISTORY_PATH
+        - name: INCOMING_REG_HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_REG_HISTORY_PATH
+        - name: OUTGOING_REG_HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_REG_HISTORY_PATH
+        - name: INCOMING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_PATH
+        - name: REGULAR_INCOMING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_INCOMING_PATH
+        - name: OUTGOING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_PATH
+        - name: REGULAR_OUTGOING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_OUTGOING_PATH
+        - name: INCOMING_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_BASE_URI
+        - name: INCOMING_NEW_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_NEW_PATH
+        - name: INCOMING_NEW_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_NEW_REG_PATH
+        - name: INCOMING_REF_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_REF_REG_PATH
+        - name: OUTGOING_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_BASE_URI
+        - name: OUTGOING_NEW_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_NEW_PATH
+        - name: OUTGOING_NEW_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_NEW_REG_PATH
+        - name: OUTGOING_REF_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_REF_REG_PATH
+        - name: SIGN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_URI
+        - name: SIGN_IN_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_IN_PATH
+        - name: SIGN_UP_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_UP_PATH
+        - name: NEW_SMS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_SMS_PATH
+        - name: ASK_SMS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ASK_SMS_PATH
+        - name: NEW_SMS_REF_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_SMS_REF_PATH
+        - name: ASK_SMS_REF_PAT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ASK_SMS_REF_PAT
+        - name: REF_PASS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REF_PASS_PATH
+        - name: ACCESS_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ACCESS_SECRET
+        - name: REFRESH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REFRESH_SECRET
+        - name: TOKEN_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_DB_NAME
+        - name: TOKEN_DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_DB_PORT
+        - name: NEW_TOKEN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_TOKEN_URI
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 80
+            name: onew-prod-port
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: out-new
+  namespace: production
+  labels:
+    tier: production
+spec:
+  type: ClusterIP
+  selector:
+    tier: production
+    app: out-new
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: innew-deployment
+  namespace: production
+  labels:
+    tier: production
+    app: in-new
+spec:
+  selector:
+    matchLabels:
+      tier: production
+      app: in-new
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        tier: production
+        app: in-new
+    spec:
+      containers:
+      - name: in-new
+        image: serefakkus/mt-in-new:1.0.0
+        env:
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: MONGO_URI
+        - name: PSQL_HOST
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_HOST
+        - name: PSQL_PORT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_PORT
+        - name: PSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_USER
+        - name: PSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_PASSWORD
+        - name: PSQL_DBNAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_DBNAME
+        - name: SIGN_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_TABLE_NAME
+        - name: SIGN_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_DB_NAME
+        - name: SMS_SQL_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SMS_SQL_TABLE_NAME
+        - name: SMS_SQL_LOG_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SMS_SQL_LOG_TABLE_NAME
+        - name: NEW_USER_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_USER_URI
+        - name: TOKEN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_URI
+        - name: INCOMING_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_DB_NAME
+        - name: OUTGOING_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_DB_NAME
+        - name: USER_HISTORY_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: USER_HISTORY_DB_NAME
+        - name: REGULAR_INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_INCOMING_TABLE_NAME
+        - name: REGULAR_HISTORY_INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_HISTORY_INCOMING_TABLE_NAME
+        - name: INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_TABLE_NAME
+        - name: USER_HISTORY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: USER_HISTORY_TABLE_NAME
+        - name: INCOMING_DAILY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_DAILY_TABLE_NAME
+        - name: REGULAR_OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_OUTGOING_TABLE_NAME
+        - name: REGULAR_HISTORY_OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_HISTORY_OUTGOING_TABLE_NAME
+        - name: OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_TABLE_NAME
+        - name: OUTGOING_DAILY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_DAILY_TABLE_NAME
+        - name: GET_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: GET_BASE_URI
+        - name: HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: HISTORY_PATH
+        - name: INCOMING_REG_HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_REG_HISTORY_PATH
+        - name: OUTGOING_REG_HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_REG_HISTORY_PATH
+        - name: INCOMING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_PATH
+        - name: REGULAR_INCOMING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_INCOMING_PATH
+        - name: OUTGOING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_PATH
+        - name: REGULAR_OUTGOING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_OUTGOING_PATH
+        - name: INCOMING_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_BASE_URI
+        - name: INCOMING_NEW_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_NEW_PATH
+        - name: INCOMING_NEW_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_NEW_REG_PATH
+        - name: INCOMING_REF_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_REF_REG_PATH
+        - name: OUTGOING_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_BASE_URI
+        - name: OUTGOING_NEW_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_NEW_PATH
+        - name: OUTGOING_NEW_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_NEW_REG_PATH
+        - name: OUTGOING_REF_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_REF_REG_PATH
+        - name: SIGN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_URI
+        - name: SIGN_IN_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_IN_PATH
+        - name: SIGN_UP_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_UP_PATH
+        - name: NEW_SMS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_SMS_PATH
+        - name: ASK_SMS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ASK_SMS_PATH
+        - name: NEW_SMS_REF_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_SMS_REF_PATH
+        - name: ASK_SMS_REF_PAT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ASK_SMS_REF_PAT
+        - name: REF_PASS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REF_PASS_PATH
+        - name: ACCESS_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ACCESS_SECRET
+        - name: REFRESH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REFRESH_SECRET
+        - name: TOKEN_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_DB_NAME
+        - name: TOKEN_DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_DB_PORT
+        - name: NEW_TOKEN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_TOKEN_URI
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 80
+            name: inew-prod-port
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: in-new
+  namespace: production
+  labels:
+    tier: production
+spec:
+  type: ClusterIP
+  selector:
+    tier: production
+    app: in-new
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: get-deployment
+  namespace: production
+  labels:
+    tier: production
+    app: get
+spec:
+  selector:
+    matchLabels:
+      tier: production
+      app: get
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        tier: production
+        app: get
+    spec:
+      containers:
+      - name: get
+        image: serefakkus/mt-get:1.0.0
+        env:
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: MONGO_URI
+        - name: PSQL_HOST
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_HOST
+        - name: PSQL_PORT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_PORT
+        - name: PSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_USER
+        - name: PSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_PASSWORD
+        - name: PSQL_DBNAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: PSQL_DBNAME
+        - name: SIGN_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_TABLE_NAME
+        - name: SIGN_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_DB_NAME
+        - name: SMS_SQL_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SMS_SQL_TABLE_NAME
+        - name: SMS_SQL_LOG_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SMS_SQL_LOG_TABLE_NAME
+        - name: NEW_USER_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_USER_URI
+        - name: TOKEN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_URI
+        - name: INCOMING_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_DB_NAME
+        - name: OUTGOING_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_DB_NAME
+        - name: USER_HISTORY_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: USER_HISTORY_DB_NAME
+        - name: REGULAR_INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_INCOMING_TABLE_NAME
+        - name: REGULAR_HISTORY_INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_HISTORY_INCOMING_TABLE_NAME
+        - name: INCOMING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_TABLE_NAME
+        - name: USER_HISTORY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: USER_HISTORY_TABLE_NAME
+        - name: INCOMING_DAILY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_DAILY_TABLE_NAME
+        - name: REGULAR_OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_OUTGOING_TABLE_NAME
+        - name: REGULAR_HISTORY_OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_HISTORY_OUTGOING_TABLE_NAME
+        - name: OUTGOING_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_TABLE_NAME
+        - name: OUTGOING_DAILY_TABLE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_DAILY_TABLE_NAME
+        - name: GET_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: GET_BASE_URI
+        - name: HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: HISTORY_PATH
+        - name: INCOMING_REG_HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_REG_HISTORY_PATH
+        - name: OUTGOING_REG_HISTORY_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_REG_HISTORY_PATH
+        - name: INCOMING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_PATH
+        - name: REGULAR_INCOMING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_INCOMING_PATH
+        - name: OUTGOING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_PATH
+        - name: REGULAR_OUTGOING_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REGULAR_OUTGOING_PATH
+        - name: INCOMING_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_BASE_URI
+        - name: INCOMING_NEW_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_NEW_PATH
+        - name: INCOMING_NEW_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_NEW_REG_PATH
+        - name: INCOMING_REF_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: INCOMING_REF_REG_PATH
+        - name: OUTGOING_BASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_BASE_URI
+        - name: OUTGOING_NEW_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_NEW_PATH
+        - name: OUTGOING_NEW_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_NEW_REG_PATH
+        - name: OUTGOING_REF_REG_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: OUTGOING_REF_REG_PATH
+        - name: SIGN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_URI
+        - name: SIGN_IN_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_IN_PATH
+        - name: SIGN_UP_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: SIGN_UP_PATH
+        - name: NEW_SMS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_SMS_PATH
+        - name: ASK_SMS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ASK_SMS_PATH
+        - name: NEW_SMS_REF_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_SMS_REF_PATH
+        - name: ASK_SMS_REF_PAT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ASK_SMS_REF_PAT
+        - name: REF_PASS_PATH
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REF_PASS_PATH
+        - name: ACCESS_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: ACCESS_SECRET
+        - name: REFRESH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: REFRESH_SECRET
+        - name: TOKEN_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_DB_NAME
+        - name: TOKEN_DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: TOKEN_DB_PORT
+        - name: NEW_TOKEN_URI
+          valueFrom:
+            secretKeyRef:
+              name: var-con
+              key: NEW_TOKEN_URI
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 80
+            name: get-prod-port
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: get
+  namespace: production
+  labels:
+    tier: production
+spec:
+  type: ClusterIP
+  selector:
+    tier: production
+    app: get
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ssshht-web-deployment
+  namespace: production
+  labels:
+    tier: production
+    app: ssshht-web
+spec:
+  selector:
+    matchLabels:
+      tier: production
+      app: ssshht-web
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        tier: production
+        app: ssshht-web
+    spec:
+      containers:
+      - name: ssshht-web
+        image: serefakkus/ssshht_web:1.0.14
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 80
+            name: web-prod-port
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ssshhtweb
+  namespace: production
+  labels:
+    tier: production
+spec:
+  type: ClusterIP
+  selector:
+    tier: production
+    app: ssshht-web
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: production
+  labels:
+    tier: production
+    app: nginx
+spec:
+  selector:
+    matchLabels:
+      tier: production
+      app: nginx
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        tier: production
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: serefakkus/mt-nginx:1.0.0
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 80
+            name: ng-prod-port
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  namespace: production
+  labels:
+    tier: production
+spec:
+  type: ClusterIP
+  selector:
+    tier: production
+    app: nginx
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80

@@ -13,7 +13,6 @@ func routerSign(req *sign.ReqSign, ip *sign.Ip) (data []byte) {
 	switch req.ReqType {
 
 	case "login":
-
 		return signIn(req, ip)
 
 	case "new_sms":

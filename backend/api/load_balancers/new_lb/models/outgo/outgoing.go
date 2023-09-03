@@ -6,7 +6,7 @@ import (
 	"new_lb/set"
 )
 
-type ReqOutgoing struct {
+type ReqOutgoingNew struct {
 	UserId   string
 	Category string
 	Emoji    string
@@ -22,18 +22,18 @@ type FromUser struct {
 	UserId string
 }
 
-func (r *ReqOutgoing) ToJson() (data []byte) {
+func (r *ReqOutgoingNew) ToJson() (data []byte) {
 	var err error
 	data, err = json.Marshal(r)
 	helpers.CheckErr(err)
 	return
 }
 
-func (r *ReqOutgoing) FromJson(data *[]byte) bool {
+func (r *ReqOutgoingNew) FromJson(data *[]byte) bool {
 	err := json.Unmarshal(*data, r)
 	return helpers.CheckErr(err)
 }
 
-func (r *ReqOutgoing) SendToServer() (ok bool, code int) {
+func (r *ReqOutgoingNew) SendToServer() (ok bool, code int) {
 	return helpers.SendToServerPostWithOutResp(r, set.OutGoBaseUri, set.OutGoNewPath)
 }

@@ -1,0 +1,79 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-nginx
+  namespace: production
+  annotations:
+    kspec.ingressClassName: nginx
+    cert-manager.io/issuer: "letsencrypt-production"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+    - serefakkus.online
+    secretName: serefakkus-online-tls
+  - hosts:
+    - www.serefakkus.online
+    secretName: www-serefakkus-online-tls
+  - hosts:
+    - sign.serefakkus.online
+    secretName: sign-serefakkus-online-tls
+  - hosts:
+    - new.serefakkus.online
+    secretName: new-serefakkus-online-tls
+  - hosts:
+    - get.serefakkus.online
+    secretName: get-serefakkus-online-tls
+  rules:
+  - host: serefakkus.online
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: ssshhtweb
+            port: 
+              number: 80
+  - host: www.serefakkus.online
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: ssshhtweb
+            port: 
+              number: 80
+  - host: sign.serefakkus.online
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: sign-lb
+            port: 
+              number: 80
+  - host: new.serefakkus.online
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: new-lb
+            port: 
+              number: 80
+  - host: get.serefakkus.online
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: get-lb
+            port: 
+              number: 80

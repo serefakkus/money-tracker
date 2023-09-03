@@ -31,12 +31,12 @@ func main() {
 		return
 	})
 
-	http.HandleFunc("/in", func(w http.ResponseWriter, r *http.Request) {
-		handlers.ServeWsIn(hub, w, r)
+	http.HandleFunc("/in-new", func(w http.ResponseWriter, r *http.Request) {
+		handlers.ServeWsInNew(hub, w, r)
 	})
 
-	http.HandleFunc("/out", func(w http.ResponseWriter, r *http.Request) {
-		handlers.ServeWsOut(hub, w, r)
+	http.HandleFunc("/out-new", func(w http.ResponseWriter, r *http.Request) {
+		handlers.ServeWsOutNew(hub, w, r)
 	})
 
 	err := http.ListenAndServe(*addr, nil)

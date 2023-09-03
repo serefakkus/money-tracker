@@ -1,4 +1,4 @@
-package outgoing
+package outgoingNew
 
 import (
 	"net/http"
@@ -8,7 +8,7 @@ import (
 
 func newOutGoing(req *models.Req, userId *string) (data []byte) {
 	var resp models.Resp
-	var reqIn outgo.ReqOutgoing
+	var reqIn outgo.ReqOutgoingNew
 
 	if !reqIn.FromJson(&req.Message) {
 		return resp.ToJson(false, req.ReqId, http.StatusBadRequest)
@@ -23,7 +23,7 @@ func newOutGoing(req *models.Req, userId *string) (data []byte) {
 
 func regNewOutGoing(req *models.Req, userId *string) (data []byte) {
 	var resp models.Resp
-	var reqRegIn outgo.ReqOutRegular
+	var reqRegIn outgo.ReqOutRegularNew
 
 	if !reqRegIn.FromJson(&req.Message) {
 		return resp.ToJson(false, req.ReqId, http.StatusBadRequest)
@@ -38,7 +38,7 @@ func regNewOutGoing(req *models.Req, userId *string) (data []byte) {
 
 func regRefOutGoing(req *models.Req, userId *string) (data []byte) {
 	var resp models.Resp
-	var reqRegIn outgo.ReqOutRegular
+	var reqRegIn outgo.ReqOutRegularNew
 
 	if !reqRegIn.FromJson(&req.Message) {
 		return resp.ToJson(false, req.ReqId, http.StatusBadRequest)

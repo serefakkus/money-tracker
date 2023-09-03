@@ -1,4 +1,4 @@
-package incoming
+package incomingNew
 
 import (
 	"net/http"
@@ -6,7 +6,7 @@ import (
 	"new_lb/models"
 )
 
-func RouterInComing(req *models.Req) (data []byte) {
+func RouterInComingNew(req *models.Req) (data []byte) {
 
 	var userId string
 	var resp models.Resp

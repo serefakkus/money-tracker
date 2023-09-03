@@ -2,7 +2,6 @@
 
 FROM golang
 
-
 WORKDIR /app
 
 COPY go.mod ./

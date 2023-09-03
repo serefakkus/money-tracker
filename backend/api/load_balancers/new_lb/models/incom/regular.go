@@ -6,7 +6,7 @@ import (
 	"new_lb/set"
 )
 
-type ReqInRegular struct {
+type ReqInRegularNew struct {
 	UserId      string
 	RegularId   string
 	IntervalDay int
@@ -19,22 +19,22 @@ type ReqInRegular struct {
 	From        FromUser
 }
 
-func (r *ReqInRegular) ToJson() (data []byte) {
+func (r *ReqInRegularNew) ToJson() (data []byte) {
 	var err error
 	data, err = json.Marshal(r)
 	helpers.CheckErr(err)
 	return
 }
 
-func (r *ReqInRegular) FromJson(data *[]byte) bool {
+func (r *ReqInRegularNew) FromJson(data *[]byte) bool {
 	err := json.Unmarshal(*data, r)
 	return helpers.CheckErr(err)
 }
 
-func (r *ReqInRegular) SendToServerNew() (ok bool, code int) {
+func (r *ReqInRegularNew) SendToServerNew() (ok bool, code int) {
 	return helpers.SendToServerPostWithOutResp(r, set.InComBaseUri, set.InComRegNewPath)
 }
 
-func (r *ReqInRegular) SendToServerRef() (ok bool, code int) {
+func (r *ReqInRegularNew) SendToServerRef() (ok bool, code int) {
 	return helpers.SendToServerPostWithOutResp(r, set.InComBaseUri, set.InComRegRefPath)
 }

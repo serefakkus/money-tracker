@@ -94,7 +94,7 @@ func (h *Hub) Run() {
 
 //--------------------------------------incoming---------------------------------
 
-func (c *Client) readPumpIn() {
+func (c *Client) readPumpInNew() {
 	var req models.Req
 	defer func() {
 		c.hub.Unregister <- c
@@ -119,13 +119,13 @@ func (c *Client) readPumpIn() {
 			return
 		}
 
-		message = incoming.RouterInComing(&req)
+		message = incomingNew.RouterInComingNew(&req)
 
 		c.Send <- message
 	}
 }
 
-func (c *Client) writePumpIn() {
+func (c *Client) writePumpInNew() {
 	ticker := time.NewTicker(pingPeriod)
 	defer func() {
 		ticker.Stop()
@@ -166,7 +166,7 @@ func (c *Client) writePumpIn() {
 	}
 }
 
-func ServeWsIn(hub *Hub, w http.ResponseWriter, r *http.Request) {
+func ServeWsInNew(hub *Hub, w http.ResponseWriter, r *http.Request) {
 
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -180,14 +180,14 @@ func ServeWsIn(hub *Hub, w http.ResponseWriter, r *http.Request) {
 
 	// Allow collection of memory referenced by the caller by doing all work in
 	// new goroutines.
-	go client.writePumpIn()
-	go client.readPumpIn()
+	go client.writePumpInNew()
+	go client.readPumpInNew()
 
 }
 
 //-------------------------------outgoing-------------------------------------------
 
-func (c *Client) readPumpOut() {
+func (c *Client) readPumpOutNew() {
 	var req models.Req
 	defer func() {
 		c.hub.Unregister <- c
@@ -212,13 +212,13 @@ func (c *Client) readPumpOut() {
 			return
 		}
 
-		message = outgoing.RouterOutGoing(&req)
+		message = outgoingNew.RouterOutGoingNew(&req)
 
 		c.Send <- message
 	}
 }
 
-func (c *Client) writePumpOut() {
+func (c *Client) writePumpOutNew() {
 	ticker := time.NewTicker(pingPeriod)
 	defer func() {
 		ticker.Stop()
@@ -259,7 +259,7 @@ func (c *Client) writePumpOut() {
 	}
 }
 
-func ServeWsOut(hub *Hub, w http.ResponseWriter, r *http.Request) {
+func ServeWsOutNew(hub *Hub, w http.ResponseWriter, r *http.Request) {
 
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -273,7 +273,7 @@ func ServeWsOut(hub *Hub, w http.ResponseWriter, r *http.Request) {
 
 	// Allow collection of memory referenced by the caller by doing all work in
 	// new goroutines.
-	go client.writePumpOut()
-	go client.readPumpOut()
+	go client.writePumpOutNew()
+	go client.readPumpOutNew()
 
 }
